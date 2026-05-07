@@ -1,53 +1,44 @@
 // Animación de entrada (Fade In)
-const elements = document.querySelectorAll('.fade-up');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
+    if (entry.isIntersecting) entry.target.classList.add('visible');
   });
 });
-elements.forEach(el => observer.observe(el));
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-// Función de envío con EmailJS
-function handleSubmit(event) {
-  event.preventDefault();
-
-  const btn = event.target.querySelector('button');
-  const originalText = btn.textContent;
-  
-  // Feedback visual de carga
-  btn.textContent = 'Enviando...';
+// Función para el formulario con EmailJS
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector("button");
+  btn.innerText = "Enviando...";
   btn.disabled = true;
 
-  // REEMPLAZA ESTOS VALORES CON TUS IDs DEL PANEL DE EMAILJS
-  const serviceID = 'service_232tqrb';
-  const templateID = 'template_0vla1eg';
+  // Reemplaza con tus IDs reales de EmailJS
+  const serviceID = "TU_SERVICE_ID"; 
+  const templateID = "TU_TEMPLATE_ID";
 
-  // Envío del formulario completo
-  emailjs.sendForm(serviceID, templateID, event.target)
+  emailjs.sendForm(serviceID, templateID, e.target)
     .then(() => {
-      // Éxito: Ocultar formulario y mostrar mensaje de confirmación
+      document.getElementById('contacto-form').reset();
       document.getElementById('contacto-form').style.display = 'none';
       document.getElementById('form-success').style.display = 'block';
     }, (err) => {
-      // Error: Reactivar el botón para reintentar
-      btn.textContent = originalText;
+      btn.innerText = "Enviar Solicitud";
       btn.disabled = false;
-      console.error("Fallo en el envío:", err);
-      alert("Hubo un error al enviar el mensaje. Por favor, revisa tu conexión e intenta de nuevo.");
+      alert("Error en el envío. Por favor, intenta por WhatsApp.");
     });
 }
 
-// Scroll suave para los enlaces de navegación
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function(e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({
-        behavior: 'smooth'
-      });
-    }
-  });
-});
+// Función de Desofuscación de WhatsApp
+function decodeWA(e) {
+  // Fragmentamos el número para evitar el scraping automático
+  const country = "57"; 
+  const area = "300"; 
+  const phone = "1234567"; // <--- REEMPLAZA CON TU NÚMERO REAL
+  
+  const targetNumber = country + area + phone;
+  const message = encodeURIComponent("Hola NullRisk Security, necesito una evaluación de seguridad para mi negocio.");
+  
+  // Se construye el enlace final dinámicamente al hacer clic
+  document.getElementById('wa-secure-link').href = `https://wa.me/${targetNumber}?text=${message}`;
+}
