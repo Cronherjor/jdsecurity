@@ -32,9 +32,9 @@ function handleSubmit(e) {
 // Función de Desofuscación de WhatsApp
 function decodeWA(e) {
   // Fragmentamos el número para evitar el scraping automático
-  const country = "57"; 
-  const area = "300"; 
-  const phone = "1234567"; // <--- REEMPLAZA CON TU NÚMERO REAL
+  const country = "57"; //codigo pais
+  const area = "311"; //primeros 3 numeros
+  const phone = "2731786"; //resto de numero
   
   const targetNumber = country + area + phone;
   const message = encodeURIComponent("Hola NullRisk Security, necesito una evaluación de seguridad para mi negocio.");
